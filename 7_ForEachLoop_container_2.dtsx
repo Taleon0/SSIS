@@ -1,0 +1,153 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/4/2022 7:00:55 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="HANAMI-JP"
+  DTS:CreatorName="HANAMI-JP\Hanami"
+  DTS:DTSID="{8F314699-9188-4779-AAFD-0943DD681C7F}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Package1"
+  DTS:PackageType="5"
+  DTS:VersionBuild="2"
+  DTS:VersionGUID="{ED95EA80-D623-459D-85EE-AF764DAAFA90}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{D533DB7B-897C-46A2-A6E8-FECC573B0AE0}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="NombreFichero">
+      <DTS:VariableValue
+        DTS:DataType="8">schedule_1.txt</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{301946B0-C042-4D75-B5BB-7EFA80BD11ED}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="RutaDestino">
+      <DTS:VariableValue
+        DTS:DataType="8">T:\Documents\Curso SSIS\Apoyos\FinalFolder</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{0405E452-0C5C-4E91-A55C-BCA1B634B1B0}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::RutaOrigen]+&quot;\\&quot;+ @[User::NombreFichero]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="RutaFicheroCompleta">
+      <DTS:VariableValue
+        DTS:DataType="8">T:\Documents\Curso SSIS\Apoyos\FilestoLoad\schedule_1.txt</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A7B2E36B-4B89-4FA6-AC90-F863CD67BEBA}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="RutaOrigen">
+      <DTS:VariableValue
+        DTS:DataType="8">T:\Documents\Curso SSIS\Apoyos\FilestoLoad</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Loop_files"
+      DTS:CreationName="STOCK:FOREACHLOOP"
+      DTS:Description="Foreach Loop Container"
+      DTS:DTSID="{311DA1AC-5941-456D-AA30-798C25051AE0}"
+      DTS:ExecutableType="STOCK:FOREACHLOOP"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Loop_files">
+      <DTS:ForEachEnumerator
+        DTS:CreationName="Microsoft.ForEachFileEnumerator"
+        DTS:DTSID="{5E0F70B2-C1FB-4313-B6A1-6EB9BA7A765A}"
+        DTS:ObjectName="{5E0F70B2-C1FB-4313-B6A1-6EB9BA7A765A}">
+        <DTS:PropertyExpression
+          DTS:Name="Directory">@[User::RutaOrigen]</DTS:PropertyExpression>
+        <DTS:ObjectData>
+          <ForEachFileEnumeratorProperties>
+            <FEFEProperty
+              Folder="T:\Documents\Curso SSIS\Apoyos\FilestoLoad" />
+            <FEFEProperty
+              FileSpec="*.txt" />
+            <FEFEProperty
+              FileNameRetrievalType="1" />
+            <FEFEProperty
+              Recurse="0" />
+          </ForEachFileEnumeratorProperties>
+        </DTS:ObjectData>
+      </DTS:ForEachEnumerator>
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Loop_files\copy_files"
+          DTS:CreationName="Microsoft.FileSystemTask"
+          DTS:Description="File System Task"
+          DTS:DTSID="{981F7E6E-94B4-41D6-A315-B2DF53086F4A}"
+          DTS:ExecutableType="Microsoft.FileSystemTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="copy_files"
+          DTS:TaskContact="File System Task;Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <FileSystemData
+              TaskOverwriteDestFile="True"
+              TaskSourcePath="User::RutaFicheroCompleta"
+              TaskIsSourceVariable="True"
+              TaskDestinationPath="User::RutaDestino"
+              TaskIsDestinationVariable="True" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:ForEachVariableMappings>
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{D9EC9325-F1A2-4D08-9F40-C3B1402B94B2}"
+          DTS:ObjectName="{D9EC9325-F1A2-4D08-9F40-C3B1402B94B2}"
+          DTS:ValueIndex="0"
+          DTS:VariableName="User::NombreFichero" />
+      </DTS:ForEachVariableMappings>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <AnnotationLayout
+          Text="Process to copy files from one path to another"
+          ParentId="Package"
+          FontInfo="{assembly:Null}"
+          Size="274,60"
+          Id="316213eb-7f52-4e06-8f60-3aa7253734b7"
+          TopLeft="93,54" />
+        <NodeLayout
+          Size="125,42"
+          Id="Package\Loop_files\copy_files"
+          TopLeft="57,29" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="252,123"
+          Size="252,166"
+          Id="Package\Loop_files"
+          TopLeft="130,139" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
